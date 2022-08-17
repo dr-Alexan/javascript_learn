@@ -1,6 +1,16 @@
 "use strict";
 
-const numberOfFilms = prompt('Сколько фильмов Вы уже посмотрели?');
+let numberOfFilms;
+
+function start() {
+    numberOfFilms = +prompt('Сколько фильмов Вы уже посмотрели?');
+
+    while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)) {
+        numberOfFilms = +prompt('Сколько фильмов Вы уже посмотрели?');
+    }
+}
+
+start();
 
 const personalMovieDB = {
     count: numberOfFilms,
@@ -10,33 +20,50 @@ const personalMovieDB = {
     privat: false
 };
 
-if (personalMovieDB.count < 10) {
-    console.log('Просмотрено довольно мало фильмов');
-    alert('Просмотрено довольно мало фильмов');
-} else if ((personalMovieDB.count >= 10) && (personalMovieDB.count < 30)) {
-    console.log('Вы классический зритель');
-    alert('Вы классический зритель');
-} else if (personalMovieDB.count >= 30) {
-    console.log('Вы киноман');
-    alert('Вы киноман');
-} else {
-    console.log('Произошла ошибка');
-    alert('Произошла ошибка');
-}
-
-for (let i = 0; i < personalMovieDB.count; i++) {
-    const a = prompt('Один из последних просмотренных фильмов?', ''),
-          b = prompt('На сколько оцените его?', '');
-
-    if ((a != '') && (b != '') && (a != null) && (b != null) && (a.length <= 50)) {
-        personalMovieDB.movies[a] = b;
-    } else {
-        console.log('error');
-        i--;
+function rememberMyFilms() {
+    for (let i = 0; i < personalMovieDB.count; i++) {
+        const a = prompt('Один из последних просмотренных фильмов?', ''),
+              b = prompt('На сколько оцените его?', '');
+    
+        if ((a != '') && (b != '') && (a != null) && (b != null) && (a.length <= 50)) {
+            personalMovieDB.movies[a] = b;
+        } else {
+            console.log('error');
+            i--;
+        }
     }
 }
 
-let j = 0;
+rememberMyFilms();
+
+function detectPersonalLevel() {
+    if (personalMovieDB.count < 10) {
+        console.log('Просмотрено довольно мало фильмов');
+    } else if ((personalMovieDB.count >= 10) && (personalMovieDB.count < 30)) {
+        console.log('Вы классический зритель');
+    } else if (personalMovieDB.count >= 30) {
+        console.log('Вы киноман');
+    } else {
+        console.log('Произошла ошибка');
+    }
+}
+
+detectPersonalLevel();
+
+function showMyDB(hidden) {
+    if (!hidden) {
+        console.log(personalMovieDB); 
+}
+
+showMyDB(personalMovieDB.privat);
+
+function writeYourGenres() {
+    for (let i = 1; i <= personalMovieDB.count; i++) {
+        personalMovieDB.genres[i - 1] = prompt(`Ваш любимый жанр под номером ${i}`);
+    }
+}
+
+/*let j = 0;
 while (j < personalMovieDB.count) {
     const a = prompt('Один из последних просмотренных фильмов?', ''),
           b = prompt('На сколько оцените его?', '');
@@ -52,4 +79,4 @@ do {
     k++;
 } while (k < personalMovieDB.count);
 
-console.log(personalMovieDB);
+console.log(personalMovieDB);*/
